@@ -1,0 +1,207 @@
+crm login starts here
+
+a{
+    text-decoration: none;
+}
+
+
+.crm-header-block {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.crm-header-profile-block {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    grid-gap: 15px;
+}
+
+.crm-header-profile-block-item.profile img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.crm-header-profile-block-item a {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    border-radius: 3px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.crm-header-profile-block-item.sign-out a {
+    color: #77828F;
+    background: rgba(235, 235, 235, 0.4);
+}
+.crm-header-profile-block-item.take-break a {
+    background: rgba(255, 244, 215, 0.4);
+    color: #532A1E;
+}
+.crm-header-profile-block-item.working-time a {
+    background: rgba(195, 237, 216, 0.3);
+    color: #0F1E54;
+}
+.crm-header-profile-block-item.alert-text{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    text-transform: uppercase;
+    color: rgba(119, 130, 143, 0.78);
+    padding-right: 0;
+}
+
+
+
+.crm-login-alert-block {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    grid-gap: 15px;
+}
+
+.login-alert-icon {
+    position: relative;
+    display: flex;
+    background: #E3F0FF;
+    width: 28px;
+    height: 28px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.login-alert-icon::before {
+    position: absolute;
+    content: "";
+    width: 35px;
+    height: 35px;
+    background: conic-gradient(from 180deg at 50% 50%, #1C83FB 0deg, #C8E0FF 360deg);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    border-radius: 50%;
+}
+.login-alert-icon.on-time::before {
+    position: absolute;
+    content: "";
+    width: 35px;
+    height: 35px;
+    background: conic-gradient(from 180deg at 50% 50%, #16CC70 0deg, #E4F9EA 360deg);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    border-radius: 50%;
+}
+.login-alert-icon.late-time::before {
+    position: absolute;
+    content: "";
+    width: 35px;
+    height: 35px;
+    background: conic-gradient(from 180deg at 50% 50%, #F8434E 0deg, rgba(255, 217, 217, 0) 360deg);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    border-radius: 50%;
+}
+
+
+
+.login-alert-text {
+    border-radius: 31px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 10px 25px;
+}
+
+.cr-time{
+    background: rgba(105, 174, 255, 0.19);
+    color: #0F1E54;
+}
+.on-time {
+    background: #E4F9EA;
+}
+.late-time {
+    background: rgb(255 240 240);
+}
+.login-alert-text.on-time b {
+    color: #16CC70;
+}
+.login-alert-text.late-time b {
+    color: #F8434E !important;
+}
+
+a.close {
+    margin-left: 20px;
+}
+/*crm login end here*/
+
+
+
+
+.css-1vgj6wr-MuiButtonBase-root-MuiButton-root, .css-1yo9kdb-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeSmall.MuiButton-containedSizeSmall.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeSmall.MuiButton-containedSizeSmall.css-15puwmf-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.css-k9x1d7-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.css-aaamal-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.css-ui6e1j-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeSmall.MuiButton-containedSizeSmall.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary.MuiButton-sizeSmall.MuiButton-containedSizeSmall.css-svf30e-MuiButtonBase-root-MuiButton-root, .css-1rt8pkh-MuiButtonBase-root-MuiButton-root, button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeSmall.MuiButton-textSizeSmall.css-146lx5y-MuiButtonBase-root-MuiButton-root{
+    min-width: 90% !important;
+}
+
+
+td.MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeSmall.css-q6eo78-MuiTableCell-root button{
+    min-width: 90% !important;
+}
+
+tr.MuiTableRow-root.css-18qx59p-MuiTableRow-root:hover {
+    background-color: rgb(243, 242, 255);
+    transition: .25s;
+}
+
+.task-assigned-to-me div {
+    color: rgb(255, 100, 46);
+}
+
+.ass-me-block{
+    border-left: 4px solid rgb(255, 100, 46);
+}
+
+.task-assigned-by-me div{
+    color: rgb(87, 155, 252);
+}
+
+.task-assigned-by-me .ass-me-block {
+    border-left: 4px solid rgb(87, 155, 252);
+}
+
+.to-review div{
+    color: rgb(162, 93, 220);
+}
+
+.to-review .ass-me-block {
+    border-left: 4px solid rgb(162, 93, 220);
+}
+
+.public-DraftStyleDefault-block.public-DraftStyleDefault-ltr {
+    border: 1px solid #ededed;
+    min-height: 45px;
+    border-radius: 5px;
+}
+.MuiDataGrid-columnHeader.MuiDataGrid-columnHeader--sortable.custom-header {
+    padding: 0 !important;
+  }
+  .css-auudwm-MuiInputBase-input-MuiFilledInput-input.Mui-disabled{
+    color: black !important;
+    -webkit-text-fill-color: black !important;
+  }

@@ -1,0 +1,82 @@
+.logo .container{
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.login-left{
+    background-color: rgba(217, 255, 253, 0.6);
+    border-radius: 30px;
+    padding:220px  30px 50px;
+    background-image: url('../../assets/lines.png');
+    background-position: 0 0;
+    background-repeat: no-repeat;
+
+}
+
+.login-left h4{
+    font-weight: 700;
+    font-size: 60px;
+    line-height: 64px; 
+    color: #1A3447;
+    margin: 0 0 40px;
+}
+.login-left p{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+
+    color: rgba(26, 52, 71, 0.7);
+}
+
+.login-left .log-img{
+     max-width: 418px;
+     margin: 0 auto;
+     display: block;
+}
+
+
+.login-left .log-user-img{
+    position: relative;
+    margin-right: -10px;
+    top: 10px;
+}
+
+.login-left .log-user-img:nth-child(4) { 
+    margin-right: 10px; 
+}
+.login-right {
+     
+}
+.logo{
+    margin-bottom: 150px;
+}
+.login-right .MuiFilledInput-root{
+    border: 2px solid #1A3447 !important;
+    border-radius: 5px !important;
+    height: 60px;
+}
+.login-right .log-btn{
+    background: #1A3447;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px; 
+    color: #FFFFFF;
+    padding: 20px;
+    border: 0;
+    display: block;
+    width: 100%;
+
+}
+ .for-cntr{
+    text-align: center;
+    font-weight: 500;
+font-size: 18px;
+line-height: 22px; 
+text-align: center; 
+color: #464646;
+ }
+ .for-cntr button{ 
+    font-weight: 600; 
+color: #464646;
+font-size: 18px;
+ }

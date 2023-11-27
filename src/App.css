@@ -1,0 +1,212 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.logo-image{
+  display: block;
+  margin: auto;
+  width: 40px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Table styles*/
+.css-1guiivc-MuiTableCell-root{
+  padding: 0 !important;
+}
+
+.css-pqnk8b-MuiButtonBase-root-MuiIconButton-root{
+  margin: 0 !important;
+}
+
+.MuiSelect-select{
+  padding: 10px !important;
+}
+.team-list .MuiListItem-root:nth-child(odd){
+  border-right: 1px solid #f0f0f0;
+}
+
+
+/*// Custom*/
+:root {
+  --bg: #d2edf4;
+  --btn-clr: #64c1e3;
+  --hr-clr: #59b7cf;
+
+  --hp-bg: #fab1a0;
+  --hp-btn-clr: #64c1e3;
+  --hp-hr-clr: #59b7cf;
+
+  --m-bg: #d2edf4;
+  --m-btn-clr: #64c1e3;
+  --m-hr-clr: #59b7cf;
+
+  --c-bg: #FD7272;
+  --c-btn-clr: #64c1e3;
+  --c-hr-clr: #59b7cf;
+
+  --l-bg: #F8EFBA;
+  --l-btn-clr: #64c1e3;
+  --l-hr-clr: #59b7cf;
+}
+
+.High_priority{  background: var(--hp-bg); }
+.Medium_priority{  background: var(--m-bg); }
+.Critical_priority{  background: var(--c-bg); }
+.Low_priority{  background: var(--l-bg); }
+.undefined_priority{  background: var(--l-bg); }
+
+.assign_list{
+  border-radius: 15px;
+  padding: 15px 15px 0 15px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.ass-date hr.sub-hr {
+  border: 0;
+  height: 30px;
+  width: 1px;
+  margin: 0px 5px;
+  background: var(--hr-clr);
+}
+
+.ass-srt-btn{
+  padding: 1px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  display: inline-block;
+  background-color: var(--btn-clr);
+}
+
+.ass-prty{
+  font-size: 14px;
+  color: #333;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255,255,255,.5);
+  padding: 15px;
+  border-radius: 0 0 0 15px;
+}
+.ass-sm-txt{
+  font-size: 10px;
+  color: #333;
+  display: block;
+  width: 90%;
+}
+.assign_list h3{
+  margin: 0 0 10px;
+  font-size: 15px;
+  max-width: 90%;
+}
+
+.ass-name{
+  font-size: 10px;
+  color: #333;
+  line-height: 14px;
+}
+.ass-name strong{
+  font-weight: 700;
+  font-size: 14px;
+}
+.assign_list hr.main-hr {
+  border: 0;
+  height: 1px;
+  width: calc(100% + 30px);
+  margin: 15px -15px;
+  background: #33333324;
+}
+.flex-cen{
+  justify-content: space-between!important;
+  display: flex!important;
+}
+.align-items-center{
+  align-items: center!important;
+  display: flex!important;
+}
+.ass-date{
+  width: 100%;
+  max-width: 210px;
+  padding: 8px 0px;
+  border-radius: 15px 15px 0 0;
+  background-color: rgba(255,255,255,.5);
+}
+.text-rigt{
+  text-align: right;
+}
+
+.add-due-date{
+  transform: rotate(270deg);
+  transform-origin: 0 0;
+  position: relative;
+  top: 27px;
+  font-size: 16px;
+  font-weight: 600;
+  left: 5px;
+  color: rgb(133, 4, 4);
+  margin-right: -30px;
+}
+.add-left-tim{
+  font-size: 14px;
+  line-height: 16px;
+}
+.css-1784r5i-MuiPaper-root-MuiDrawer-paper{
+  height: 100% !important;
+}
+.css-1sg812h-MuiPaper-root-MuiDrawer-paper{
+  height: 100% !important;
+}
+.css-crlut9-MuiAvatar-root-MuiAvatarGroup-avatar{
+  width: 24px !important;
+  height: 24px !important;
+ }
+
+.logout{
+  position: fixed;
+  bottom: 0;
+  right: 10px;
+  background: #7c7c7c12;
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.link{
+  color: midnightblue !important;
+  font-weight: bold !important;
+  cursor: pointer;
+
+}
