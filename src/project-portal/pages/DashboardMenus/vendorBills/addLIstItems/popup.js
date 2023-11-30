@@ -8,9 +8,10 @@ import SelectX from '../../../../form/SelectX';
 import Select from 'react-select'
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import { WorkOrders } from '../../../../../api/Endpoints/WorkOrders';
 
 
-const AddLIstItems = ({ open, setOpen, ID, setID }) => {
+const AddLIstItems = ({ open, setOpen, ID, setID, invoicetab }) => {
     const validationSchema = yup.object().shape({
         title: yup.string().required('Title is required'),
         price: yup.number().required('Price is required').positive('Price must be positive'),
@@ -20,6 +21,15 @@ const AddLIstItems = ({ open, setOpen, ID, setID }) => {
 
     const { register, handleSubmit, formState: { errors }, control, setValue, watch } = useForm(
     );
+    const fetchTransactions = (e) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const data = [
+                ];
+                resolve(data);
+            }, 1000);
+        });
+    };
 
     const [TotalValue, setTotalValue] = useState(33)
     const [formButtonStatus, setFormButtonStatus] = useState({
@@ -68,16 +78,18 @@ const AddLIstItems = ({ open, setOpen, ID, setID }) => {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const data = [];
-
                 for (let i = 8; i <= 25; i++) {
                     data.push({ id: i, name: `${i}%` });
                 }
-
                 resolve(data);
             }, 1000);
         });
     };
-
+    const fetchWorkOrders = (e) => {
+        return WorkOrders.get({ keyword: e }).then((response) => {
+            return response.data.data.data
+        })
+    }
     useEffect(() => {
         try {
             if (watch('price') || watch('qty')) {
@@ -141,7 +153,26 @@ const AddLIstItems = ({ open, setOpen, ID, setID }) => {
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                 <DialogContent>
                     <Grid container padding={1}>
+                        {invoicetab &&
+                            <>
 
+                                <Grid sm={6} item padding={1}>
+                                    <SelectX
+                                        label={"Work Order"}
+                                        options={fetchWorkOrders}
+                                        control={control}
+                                        name={'work_orders'}
+                                        defaultValue={watch('work_orders')}
+                                    />
+                                </Grid>
+                                <Grid sm={6} item p={1}>
+                                    <TextInput control={control}
+                                        name="amount"
+                                        label="Amount"
+                                    />
+                                </Grid>
+                            </>
+                        }
                         <Grid container p={1} spacing={2} >
                             <Grid sm={12} item>
                                 <TextInput control={control}

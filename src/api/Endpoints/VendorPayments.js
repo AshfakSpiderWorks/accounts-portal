@@ -2,7 +2,7 @@ import { get, post } from './../Config/config';
 
 
 export const VendorPayments = {
-    vendors: () => get('/inventory/vendors/list'),
+    vendors: (data) => get('/inventory/vendors/list', { params: data }),
 
     get: (data) => get('/accounts/vendor-payments', { params: data }),
     add: (data) => post('/accounts/vendor-payments/store', data),

@@ -61,8 +61,8 @@ const items = [
   ,
   {
     icon: DescriptionIcon,
-    title: 'Invoices',
-    href: '/dashboard/invoices'
+    title: 'Business Invoices',
+    href: '/dashboard/business-invoices'
   },
   {
     icon: CurrencyExchange,

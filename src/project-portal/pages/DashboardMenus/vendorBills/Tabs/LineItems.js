@@ -10,22 +10,16 @@ import { MoreOptionsDropdown } from '../../../common/MoreAction';
 
 
 
-const LineItems = () => {
+const LineItems = ({ isInvoiceTab }) => {
     const [open, setOpen] = useState(false);
     const [editId, setEditId] = useState()
 
     const [ID, setID] = useState(null)
     const columns = [
         { field: 'title', headerName: 'Title', width: 270 },
-        // { field: 'quantity', headerName: 'Quantity', width: 120 },
         { field: 'billAmount', headerName: 'Bill Amount', width: 130 },
-        // { field: 'sgst', headerName: 'SGST', width: 100 },
-        // { field: 'cgst', headerName: 'CGST', width: 100 },
-        // { field: 'igst', headerName: 'IGST', width: 100 },
-        // { field: 'vat', headerName: 'VAT', width: 100 },
-        // { field: 'discount', headerName: 'Discount', width: 120 },
         { field: 'totalAmount', headerName: 'Total Amount', width: 100 },
-        // { field: 'description', headerName: 'Description', width: 200 },
+
         {
             field: "",
             width: 10,
@@ -43,7 +37,7 @@ const LineItems = () => {
     }
     return (
         <div style={{ height: 330, width: '100%' }}>
-            {open && <AddLIstItems setOpen={setOpen} open={open} ID={ID} setID={setID} />}
+            {open && <AddLIstItems setOpen={setOpen} open={open} ID={ID} setID={setID} invoicetab={isInvoiceTab} />}
 
             <DataGrid rows={dummyData} columns={columns} pageSize={5} />
             <Divider />

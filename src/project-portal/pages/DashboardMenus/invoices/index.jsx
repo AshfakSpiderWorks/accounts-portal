@@ -5,7 +5,9 @@ import Paper from "@mui/material/Paper"
 import Box from "@mui/material/Box"
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
 import { Backdrop, Button, Card, CircularProgress } from "@mui/material"
-
+import BasicTabs from "./TabMenu"
+import EditIcon from "@mui/icons-material/Edit"
+import DeleteIcon from "@mui/icons-material/Delete"
 const Invoices = () => {
   const [refresh, setRefresh] = useState(false)
   const [editId, setEditId] = useState()
@@ -13,68 +15,106 @@ const Invoices = () => {
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
   const [rowsDetails, setrowsDetails] = useState({})
-
+  const [detailViewId, setDetailViewId] = useState(false)
+  const [showDetailView, setshowDetailView] = useState(false)
   const handleCreate = () => {
     setEditId(0)
     setRefresh(Math.random)
   }
 
-  const handleUpdate = (details) => {
-    handleCreate()
-    setEditId(3)
-    console.log(editId)
-    setrowsDetails(details)
-    console.log(details)
+  const handleUpdate = () => {
     setPageNumber()
     setPageNumber(0)
   }
 
+  const DetailViewOpen = (id) => {
+    setDetailViewId(id)
+    setshowDetailView(true)
+  }
+  const handleEdit = () => {
+    setEditId(1)
+  }
   const columns = [
     // { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: "Name",
-      headerName: "Name",
-      width: 150,
-      editable: true,
+      field: "title",
+      headerName: "Title",
+      width: 420,
+      renderCell: (params) => (
+        <p onClick={() => DetailViewOpen(params.id)}>{params.row.title}</p>
+      ),
     },
+
     {
-      field: "PaymentProfile",
+      field: "payment_profile",
       headerName: "Payment Profile",
       width: 150,
-      editable: true,
     },
     {
-      field: "Currency",
-      headerName: "Currency",
+      field: "client",
+      headerName: "Client",
+      width: 100,
+    },
+    {
+      field: "payment_date",
+      headerName: "Payment Date",
       width: 150,
-      editable: true,
+    },
+
+    {
+      field: "edit",
+      headerName: "",
+      width: 50,
+      renderCell: (params) => (
+        <Button onClick={() => handleEdit(params.id)}>
+          <EditIcon sx={{ fontSize: 19 }} />
+        </Button>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "",
+      width: 80,
+      renderCell: (params) => (
+        <Button ocolor="error">
+          <DeleteIcon sx={{ color: "red", fontSize: 19 }} />
+        </Button>
+      ),
     },
   ]
 
   const rows = [
-    { id: 1, Name: "Snow", PaymentProfile: "Demo", Currency: "INR" },
-    { id: 2, Name: "Lannister", PaymentProfile: "Demo", Currency: "INR" },
-    { id: 3, Name: "Lannister", PaymentProfile: "Demo", Currency: "INR" },
+    {
+      id: 1,
+      title: "Invoice for Product Purchase",
+      business_account: "Tony Jhon",
+      client: "Test Client",
+      payment_profile: "Test Profile",
+      payment_date: "22-07-2023",
+    },
   ]
 
   return (
     <>
-      <PageHeader title={"Invoices"} />
-
+      {showDetailView && (
+        <BasicTabs setshowDetailView={setshowDetailView} ID={detailViewId} />
+      )}
       <Card
-        sx={{ p: 2, display: "flex", justifyContent: "end" }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
         variant="outlined"
       >
+        <PageHeader title={"Business Invoices"} />
         <CreateInvoices
-          rowdetails={rowsDetails}
-          key={refresh}
           onNew={handleCreate}
           onUpdate={handleUpdate}
           editId={editId}
           setEditId={setEditId}
         />
       </Card>
-
       <Card sx={{ m: 2 }} variant="outlined">
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

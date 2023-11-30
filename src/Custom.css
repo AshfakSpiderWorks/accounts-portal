@@ -205,3 +205,10 @@ tr.MuiTableRow-root.css-18qx59p-MuiTableRow-root:hover {
     color: black !important;
     -webkit-text-fill-color: black !important;
   }
+  #loader-circle{
+    width: 100%;
+    margin-top: 80px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+}  

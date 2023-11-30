@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -19,6 +20,7 @@ import { VendorPayments } from "../../../../api/Endpoints/VendorPayments"
 import { TaxAccount } from "../../../../api/Endpoints/TaxAccount"
 import { SubscriptionsApi } from "../../../../api/Endpoints/Subscriptions"
 import { TransactionsApi } from "../../../../api/Endpoints/Transactions"
+import { ring } from "ldrs"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   divider: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(1.3, 0),
   },
   select: {
     minWidth: 200,
@@ -54,6 +56,7 @@ const DetailView = (props) => {
 
   const fetchActivityDetails = () => {
     setLoading(true)
+    ring.register()
     TransactionsApi.getDetails({ id: props.id })
       .then((response) => {
         setDetails(response.data.data)
@@ -61,11 +64,8 @@ const DetailView = (props) => {
       })
       .catch((errors) => {
         console.log(errors)
+        setLoading(false)
       })
-  }
-
-  const handleStorageChange = () => {
-    console.log("testing")
   }
 
   useEffect(() => {
@@ -95,194 +95,147 @@ const DetailView = (props) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Detail View</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Title:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.title}
-              </Typography>
+        <DialogTitle>Details</DialogTitle>
+
+        {!loading ? (
+          <DialogContent>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Title:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.title}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
+            <Divider className={classes.divider} />
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.0rem" }}
-              >
-                Amount:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.amount}
-              </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Amount:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.amount}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Currency:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.default_currency?.name}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.0rem" }}
-              >
-                Currency:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.default_currency?.name}
-              </Typography>
+            <Divider className={classes.divider} />
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  payment Channel:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.payment_channel?.title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Transaction Type:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.transaction_type}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
 
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Business Account:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.business_account?.title}
-              </Typography>
+            <Divider className={classes.divider} />
+
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Transaction date:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.transaction_date?.slice(8, 10)}-
+                  {details?.transaction_date?.slice(5, 7)}-
+                  {details?.transaction_date?.slice(0, 4)}
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Tax Account:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.tax_account?.title}
-              </Typography>
+            <Divider className={classes.divider} />
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <Typography
+                  variant="body1"
+                  component="h2"
+                  style={{ fontWeight: "400", fontSize: "13px" }}
+                >
+                  Description:
+                </Typography>
+                <Typography
+                  variant="body2"
+                  style={{ paddingTop: 10, fontSize: "16px" }}
+                >
+                  {details?.description}
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.0rem" }}
-              >
-                payment Channel:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.payment_channel?.title}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Transaction Type:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.transaction_type}
-              </Typography>
-            </Grid>
-          </Grid>
-
-          <Divider className={classes.divider} />
-
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Transaction date:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.transaction_date?.slice(8, 10)}-
-                {details?.transaction_date?.slice(5, 7)}-
-                {details?.transaction_date?.slice(0, 4)}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <Typography
-                variant="body1"
-                component="h2"
-                style={{ fontWeight: "bold", fontSize: "1.1rem" }}
-              >
-                Description:
-              </Typography>
-              <Typography
-                variant="body2"
-                style={{ paddingTop: 10, fontSize: "16px" }}
-              >
-                {details?.description}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Divider className={classes.divider} />
-
-          {/* 
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" component="h2" style={{ fontWeight: 'bold', fontSize: '1.0rem' }}>
-                                Cost Model:
-
-                            </Typography>
-                            <Typography variant="body2" style={{ paddingTop: 10, fontSize: '16px' }} >
-
-                                {details?.cost_model}
-                            </Typography>
-
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Typography variant="body1" component="h2" style={{ fontWeight: 'bold', fontSize: '1.0rem' }}>
-                                Status :
-                            </Typography>
-                            <Typography variant="body2" style={{ paddingTop: 10, fontSize: '16px' }} >
-
-
-                                {details?.status}
-                            </Typography>
-                        </Grid>
-                    </Grid> */}
-        </DialogContent>
+          </DialogContent>
+        ) : (
+          <Box id="loader-circle">
+            <l-ring
+              size="40"
+              stroke="3"
+              bg-opacity="0"
+              speed="2"
+              color="blue"
+            />
+          </Box>
+        )}
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>

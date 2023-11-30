@@ -109,7 +109,7 @@ const routes = [
             }
             ,
             {
-                path: 'invoices',
+                path: 'business-invoices',
                 element: <Invoices />
             }
             ,

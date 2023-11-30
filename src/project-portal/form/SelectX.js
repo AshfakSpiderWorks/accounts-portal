@@ -50,7 +50,8 @@ const SelectX = (props) => {
                             onInputChange={onInputChange}
                             menuPortalTarget={document.body}
                             styles={customStyles}
-
+                            isDisabled={props.disabled}
+                            placeholder={props.placeholder}
 
                         />
                     )

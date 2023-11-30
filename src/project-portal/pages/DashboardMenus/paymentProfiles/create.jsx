@@ -21,7 +21,10 @@ import TextInput from "../../../form/TextInput"
 import { ErrorMessage } from "@hookform/error-message"
 import { LoadingButton } from "@mui/lab"
 import { Departments } from "../../../../api/Endpoints/Departments"
-
+import { Account } from "../../../../api/Endpoints/Account"
+import Select from "react-select"
+import { VendorPayments } from "../../../../api/Endpoints/VendorPayments"
+import { Employee } from "../../../../api/Endpoints/Employee"
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
@@ -52,7 +55,9 @@ const CreatePaymentProfiles = (props) => {
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [editValues, setEditValues] = useState({})
-
+  const [selectedProfile, setSelectedProfile] = useState(null)
+  const [PopulatedProfile, setPopulatedProfile] = useState(null)
+  const [drpLoaing, setDrpLoading] = useState(false)
   const [formButtonStatus, setFormButtonStatus] = useState({
     label: "Submit",
     loading: false,
@@ -67,25 +72,6 @@ const CreatePaymentProfiles = (props) => {
     // props.setEditId(undefined)
     setOpen(false)
   }
-
-  const onSubmit = () => {
-    console.log("hello")
-  }
-
-  const fetchBusinessCountry = (e) => {
-    return Departments.get({ keyword: e }).then((response) => {
-      if (typeof response.data.data.data !== "undefined") {
-        let data = [
-          { id: 0, name: "INDIA" },
-          { id: 1, name: "UAE" },
-        ]
-        return data
-      } else {
-        return response.data.data.data
-      }
-    })
-  }
-
   useEffect(() => {
     if (parseInt(props.editId) > 0) {
       setEditValues(props.rowdetails.row)
@@ -95,6 +81,153 @@ const CreatePaymentProfiles = (props) => {
       setOpen(true)
     }
   }, [])
+
+  const ProfileType = [
+    { value: "client", label: "Client" },
+    { value: "vendor", label: "Vendor" },
+    { value: "employee", label: "Employee" },
+    { value: "other", label: "Other" },
+  ]
+
+  //Logic For populating ProfileDropdown
+  const handleProfileChange = async (selectedOption) => {
+    setSelectedProfile(selectedOption)
+    setValue("profile", selectedOption)
+    setValue("populatedProfile", [])
+    setPopulatedProfile(null)
+    if (selectedOption?.value === "client") {
+      setDrpLoading(true)
+      try {
+        const clients = await fetchClients()
+        const transformedClients = clients.map((client) => ({
+          value: client.id,
+          label: client.account_name,
+        }))
+        setValue("populatedProfile", transformedClients)
+      } catch (error) {
+        console.error("Error :", error)
+        setValue("populatedProfile", [])
+      }
+      setDrpLoading(false)
+    } else if (selectedOption?.value === "vendor") {
+      setDrpLoading(true)
+      try {
+        const vendors = await fetchVendors()
+        const transformedVendors = vendors.map((vendor) => ({
+          value: vendor.id,
+          label: vendor.name,
+        }))
+        setValue("populatedProfile", transformedVendors)
+      } catch (error) {
+        console.error("Error :", error)
+        setValue("populatedProfile", [])
+      }
+      setDrpLoading(false)
+    } else if (selectedOption?.value === "employee") {
+      setDrpLoading(true)
+      try {
+        const employees = await fetchEmployees()
+        const transformedEmployees = employees.map((employee) => ({
+          value: employee.id,
+          label: employee.name,
+        }))
+        setValue("populatedProfile", transformedEmployees)
+      } catch (error) {
+        console.error("Error :", error)
+        setValue("populatedProfile", [])
+      }
+      setDrpLoading(false)
+    } else {
+      setValue("populatedProfile", [{ value: 1, label: "Other" }])
+    }
+  }
+  //Login For ProfileDropdown Search
+  const onSearchValue = (e) => {
+    if (selectedProfile?.value === "client") {
+      setDrpLoading(true)
+      fetchClients(e)
+        .then((Clie) => {
+          const transformedClient = Clie.map((client) => ({
+            value: client.id,
+            label: client.account_name,
+          }))
+          setValue("populatedProfile", transformedClient)
+          setDrpLoading(false)
+        })
+        .catch((error) => {
+          console.error("Error fetching clients:", error)
+          setDrpLoading(false)
+          setValue("populatedProfile", [])
+        })
+    } else if (selectedProfile?.value === "vendor") {
+      setDrpLoading(true)
+      fetchVendors(e)
+        .then((Vendo) => {
+          const transformedVendor = Vendo.map((vendor) => ({
+            value: vendor.id,
+            label: vendor.name,
+          }))
+          setValue("populatedProfile", transformedVendor)
+          setDrpLoading(false)
+        })
+        .catch((error) => {
+          console.error("Error fetching clients:", error)
+          setDrpLoading(false)
+          setValue("populatedProfile", [])
+        })
+    } else if (selectedProfile?.value === "employee") {
+      setDrpLoading(true)
+      fetchEmployees(e)
+        .then((Employ) => {
+          const transformedEmployee = Employ.map((employee) => ({
+            value: employee.id,
+            label: employee.name,
+          }))
+          setValue("populatedProfile", transformedEmployee)
+          setDrpLoading(false)
+        })
+        .catch((error) => {
+          console.error("Error fetching clients:", error)
+          setDrpLoading(false)
+          setValue("populatedProfile", [])
+        })
+    } else {
+      return
+    }
+  }
+
+  const fetchClients = (e) => {
+    return Account.get({ keyword: e }).then((response) => {
+      if (typeof response.data.data.data) {
+        return response.data.data.data
+      } else {
+        return []
+      }
+    })
+  }
+
+  const fetchVendors = (e) => {
+    return VendorPayments.vendors({ keyword: e }).then((response) => {
+      if (typeof response.data.data !== "undefined") {
+        return response.data.data
+      } else {
+        return []
+      }
+    })
+  }
+  const fetchEmployees = (e) => {
+    return Employee.get({ keyword: e }).then((response) => {
+      if (typeof response.data !== "undefined") {
+        return response.data.data.data
+      } else {
+        return []
+      }
+    })
+  }
+
+  const onSubmit = () => {
+    console.log("Form submitted!")
+  }
 
   return (
     <div>
@@ -146,270 +279,37 @@ const CreatePaymentProfiles = (props) => {
                 <TextInput
                   control={control}
                   // placeholder="Enter product Name"
-                  name="profile_name"
-                  label="Profile Name"
-                  value={watch("profile_name")}
+                  name="title"
+                  label="Title"
+                  value={watch("title")}
                 />
               </Grid>
 
-              <Grid container spacing={1} sx={{ mt: 2 }}>
+              <Grid container spacing={1} sx={{ pt: 2 }}>
                 <Grid item xs={6}>
-                  <SelectX
-                    label="Client"
-                    options={fetchBusinessCountry}
-                    control={control}
-                    name={"client"}
-                    defaultValue={watch("client")}
+                  <Select
+                    isClearable
+                    placeholder="Profile Type"
+                    name="profile_type"
+                    options={ProfileType}
+                    value={selectedProfile}
+                    onChange={handleProfileChange}
                   />
                 </Grid>
-
                 <Grid item xs={6}>
-                  <SelectX
-                    // key={refresh * 0.2}
-                    label={"Defualt Payment Channel"}
-                    options={fetchBusinessCountry}
-                    control={control}
-                    error={
-                      errors?.assign_to?.id
-                        ? errors?.assign_to?.id?.message
-                        : false
+                  <Select
+                    isClearable
+                    isLoading={drpLoaing}
+                    onInputChange={(e) => onSearchValue(e)}
+                    placeholder="Profile"
+                    options={watch("populatedProfile", [])}
+                    value={PopulatedProfile}
+                    onChange={(selectedClient) =>
+                      setPopulatedProfile(selectedClient)
                     }
-                    error2={
-                      errors?.assign_to?.message
-                        ? errors?.assign_to?.message
-                        : false
-                    }
-                    name={"default_currency"}
-                    defaultValue={watch("default_currency")}
                   />
                 </Grid>
               </Grid>
-
-              <Grid container spacing={1} sx={{ mt: 2 }}>
-                <Grid item xs={6}>
-                  <TextInput
-                    control={control}
-                    // placeholder="Enter product Name"
-                    name="tax_id"
-                    label="Tax ID"
-                    value={watch("tax_id")}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <SelectX
-                    // key={refresh * 0.2}
-                    label={"Billing Country"}
-                    options={fetchBusinessCountry}
-                    control={control}
-                    error={
-                      errors?.assign_to?.id
-                        ? errors?.assign_to?.id?.message
-                        : false
-                    }
-                    error2={
-                      errors?.assign_to?.message
-                        ? errors?.assign_to?.message
-                        : false
-                    }
-                    name={"billing_country"}
-                    defaultValue={watch("billing_country")}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid sx={{ mt: 2 }} item xs={12}>
-                <InputLabel
-                  sx={{
-                    color: "black",
-                    pb: 1,
-                  }}
-                >
-                  Billing Address{" "}
-                </InputLabel>
-                <TextField
-                  {...register("billing_address")}
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={2}
-                  sx={{ width: "100%" }}
-                  required
-                />
-              </Grid>
-
-              <Grid container spacing={1} sx={{ mt: 2 }}>
-                <Grid item xs={6}>
-                  <TextInput
-                    control={control}
-                    // placeholder="Enter product Name"
-                    name="accounts_cpontact_name"
-                    label="Accounts Contact Name"
-                    value={watch("accounts_cpontact_name")}
-                  />
-                </Grid>
-
-                <Grid item xs={6}>
-                  <TextInput
-                    control={control}
-                    // placeholder="Enter product Name"
-                    name="accounts_contact_number"
-                    label="Accounts Contact Number"
-                    value={watch("accounts_contact_number")}
-                  />
-                </Grid>
-              </Grid>
-
-              <Grid sx={{ mt: 2 }} item xs={12}>
-                <TextInput
-                  control={control}
-                  // placeholder="Enter product Name"
-                  name="invoice_mail_id"
-                  label="Invoice Mail ID"
-                  value={watch("invoice_mail_id")}
-                />
-              </Grid>
-
-              <Grid sx={{ mt: 2 }} item xs={12}>
-                <InputLabel
-                  sx={{
-                    color: "black",
-                    pb: 1,
-                  }}
-                >
-                  Remarks{" "}
-                </InputLabel>
-                <TextField
-                  {...register("remarks")}
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  rows={2}
-                  sx={{ width: "100%" }}
-                  required
-                />
-              </Grid>
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Profile Name</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="profilename"
-
-                    value={editValues.Name} />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Client</Typography>
-                </Grid>
-                <Grid xs={6}>
-                  <SelectX
-                    options={fetchBusinessCountry}
-                    control={control}
-                    name={'country'}
-                    defaultValue={watch('country')}
-                  />
-                </Grid>
-              </Grid> */}
-
-              {/* 
-              <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Default PaymentChannel</Typography>
-                </Grid>
-                <Grid xs={6}>
-                  <SelectX
-                    options={fetchBusinessCountry}
-                    control={control}
-                    name={'defualtpaymentchannel'}
-                    defaultValue={watch('country')}
-                  />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Tax Id</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="taxid"
-
-                    value={watch('taxid')} />
-                </Grid>
-              </Grid>
-
-              <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Billing Address</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="billing_address"
-
-                    value={watch('billing_address')} />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Billing Country</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="billing_country"
-
-                    value={watch('billing_country')} />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Accounts Contact Name</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="accounts_contact_name"
-
-                    value={watch('accounts_contact_name')} />
-                </Grid>
-              </Grid>
-
-              <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Accounts Contact Number</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="accounts_contact_number"
-
-                    value={watch('accounts_contact_number')} />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-                <Grid xs={6}>
-                  <Typography variant='subtitle_1'>Invoice Mail ID</Typography>
-                </Grid>
-                <Grid xs={6}>
-
-                  <TextInput control={control} name="invoice_email_id"
-
-                    value={watch('invoice_email_id')} />
-                </Grid>
-              </Grid> */}
-
-              {/* <Grid sx={{ p: 1 }} item xs={12} alignItems={'center'} display={'flex'}>
-
-                <TextInput control={control} label='Remarks' name="remarks" isMultiline
-
-                  value={watch('remarks')} />
-
-              </Grid> */}
 
               <Grid sx={{ mt: 2 }} item xs={12}>
                 <ErrorMessage

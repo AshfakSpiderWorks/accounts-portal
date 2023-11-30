@@ -267,11 +267,11 @@ const Create = (props) => {
             let data = vendor.data.data;
             setValue('title', data.title);
             setValue('amount', data.amount);
-            setValue('inventory_ventors_id', {id:data.vendor?.id,name:data.vendor?.name});
+            setValue('inventory_ventors_id', { id: data.vendor?.id, name: data.vendor?.name });
             setValue('description', data.description);
             setValue('status', data.status);
             setValue('date_of_activity', data.date_of_activity);
-            setValue('reports_to_id', {id:data.report_to.id,name:data?.report_to.name});
+            setValue('reports_to_id', { id: data.report_to.id, name: data?.report_to.name });
         }
     };
 
@@ -341,7 +341,7 @@ const Create = (props) => {
                             />
 
                             <Grid container spacing={2} sx={{ display: 'flex', mt: 1 }}>
-                                <Grid sx={{ }} item xs={12}>
+                                <Grid sx={{}} item xs={12}>
                                     <SelectX
                                         key={refresh * 0.2}
                                         label={"Select Vendor"}
@@ -379,7 +379,7 @@ const Create = (props) => {
                                 </Grid>
 
 
-                                <Grid container spacing={1} sx={{ p:1,mt:1 }}>
+                                <Grid container spacing={1} sx={{ p: 1, mt: 1 }}>
                                     <Grid item xs={6}>
                                         <DateInput
                                             control={control}
@@ -396,9 +396,9 @@ const Create = (props) => {
                                             value={watch('amount')}
                                         />
                                     </Grid>
-                                    
+
                                 </Grid>
-                                <Grid sx={{ }} item xs={12}>
+                                <Grid sx={{}} item xs={12}>
                                     <SelectX
                                         key={refresh * 0.2}
                                         label={"Manager Name"}

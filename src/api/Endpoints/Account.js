@@ -1,4 +1,4 @@
-import { get, post } from './../Config/config';
+import { get, post } from '../Config/config';
 
 export const Account = {
     get: (data) => get(`/accounts`, { params: data }),

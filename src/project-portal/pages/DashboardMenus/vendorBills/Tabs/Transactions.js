@@ -23,14 +23,9 @@ const Transactions = () => {
 
     const [detailViewId, setDetailViewId] = useState()
     const columns = [
-        { field: 'transaction', headerName: 'Transaction', width: 350 },
-        // { field: 'quantity', headerName: 'Quantity', width: 120 },
-        // { field: 'billAmount', headerName: 'Bill Amount', width: 150 },
-        // { field: 'sgst', headerName: 'SGST', width: 100 },
-        // { field: 'cgst', headerName: 'CGST', width: 100 },
-        // { field: 'igst', headerName: 'IGST', width: 100 },
-        // { field: 'vat', headerName: 'VAT', width: 100 },
-        { field: 'amount', headerName: 'Amount', width: 150 },
+        { field: 'transaction', headerName: 'Transaction', width: 270 },
+        { field: 'billamount', headerName: 'Bill Amount', width: 130 },
+        { field: 'amount', headerName: 'Total Amount', width: 100 },
         // { field: 'description', headerName: 'Description', width: 200 },
         {
             field: "",
@@ -39,7 +34,7 @@ const Transactions = () => {
         },
     ];
     const dummyData = [
-        { id: 1, transaction: 'Electronic Gadgets Repair', amount: 1200 },
+        { id: 1, transaction: 'Electronic Gadgets Repair', amount: 1200, billamount: 1000 },
 
         // Add more dummy data as needed
     ];
