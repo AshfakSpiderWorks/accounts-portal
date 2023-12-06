@@ -11,14 +11,14 @@ import VendorDetails from './Tabs/VendorDetails';
 import Transactions from '../vendorBills/Tabs/Transactions';
 import LineItems from '../vendorBills/Tabs/LineItems';
 import Tax from './Tabs/Tax';
-
-const Modal = ({ ID, setshowDetailView }) => {
+import EditTransactions from './Tabs/Edit';
+const Modal = ({ ID, setshowDetailView, onNew, onUpdate, editId, setEditId }) => {
 
     const [open, setOpen] = useState(false);
 
 
     useEffect(() => {
-        if (ID > 0) {
+        if (ID > 0 || editId > 0) {
             setOpen(true)
         }
 
@@ -29,7 +29,7 @@ const Modal = ({ ID, setshowDetailView }) => {
 
     const handleClose = () => {
         setOpen(false)
-
+        setEditId && setEditId(0)
         setshowDetailView(false)
 
     }
@@ -82,7 +82,12 @@ const Modal = ({ ID, setshowDetailView }) => {
             <Box sx={{ width: '100%', mt: 0 }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant='scrollable' >
-                        <Tab label={"Details"}{...a11yProps(0)} />
+                        {editId > 0 ?
+                            <Tab label={"Edit"}{...a11yProps(0)} />
+                            :
+                            <Tab label={"Details"}{...a11yProps(0)} />
+                        }
+
                         <Tab label="Vendor Details" {...a11yProps(1)} />
                         <Tab label="Tax" {...a11yProps(2)} />
                         <Tab label="Line Items" {...a11yProps(3)} />
@@ -93,14 +98,24 @@ const Modal = ({ ID, setshowDetailView }) => {
 
                     </Tabs>
                 </Box>
-                <TabPanel value={value} index={0}>
-                    <Details />
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Tax />
+                {editId > 0 ? (
+                    <TabPanel value={value} index={0}>
+                        <EditTransactions
+                            onUpdate={onUpdate}
+                            editId={editId}
+                            setEditId={setEditId} />
+                    </TabPanel>
+                ) : (
+                    <TabPanel value={value} index={0}>
+                        <Details />
+                    </TabPanel>
+                )}
+
+                <TabPanel value={value} index={editId > 0 ?  : null}>
+                    <VendorDetails />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <VendorDetails />
+                    <Tax />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <LineItems isInvoiceTab={true} />

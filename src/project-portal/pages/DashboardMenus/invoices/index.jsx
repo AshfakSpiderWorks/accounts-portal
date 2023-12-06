@@ -8,9 +8,11 @@ import { Backdrop, Button, Card, CircularProgress } from "@mui/material"
 import BasicTabs from "./TabMenu"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
+import CreateTransactions from "./create"
 const Invoices = () => {
   const [refresh, setRefresh] = useState(false)
   const [editId, setEditId] = useState()
+  const [EditIDForTab, setEditIdForTab] = useState()
   const [pageNumber, setPageNumber] = useState(0)
   const [list, setList] = useState([])
   const [loading, setLoading] = useState(false)
@@ -32,7 +34,7 @@ const Invoices = () => {
     setshowDetailView(true)
   }
   const handleEdit = () => {
-    setEditId(1)
+    setEditIdForTab(1)
   }
   const columns = [
     // { field: 'id', headerName: 'ID', width: 90 },
@@ -108,13 +110,23 @@ const Invoices = () => {
         variant="outlined"
       >
         <PageHeader title={"Business Invoices"} />
-        <CreateInvoices
+        <CreateTransactions
           onNew={handleCreate}
           onUpdate={handleUpdate}
           editId={editId}
           setEditId={setEditId}
         />
-      </Card>
+      </Card>{" "}
+      {EditIDForTab > 0 && (
+        <BasicTabs
+          onNew={handleCreate}
+          onUpdate={handleUpdate}
+          editId={EditIDForTab}
+          setEditId={setEditIdForTab}
+          setshowDetailView={setshowDetailView}
+          ID={detailViewId}
+        />
+      )}
       <Card sx={{ m: 2 }} variant="outlined">
         <Backdrop
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

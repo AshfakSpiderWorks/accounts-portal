@@ -276,10 +276,7 @@ const CreateTransactions = (props) => {
   }, [])
 
   useEffect(() => {
-    if (parseInt(props.editId) > 0) {
-      fetchTransactionsDetails()
-      setOpen(true)
-    } else if (Number(props.editId) === 0) {
+    if (Number(props.editId) === 0) {
       setOpen(true)
     }
   }, [props.editId])
@@ -631,10 +628,6 @@ const CreateTransactions = (props) => {
             </Grid>{" "}
           </form>
         </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
-        </DialogActions>
       </Dialog>
     </div>
   )

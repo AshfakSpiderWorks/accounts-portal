@@ -137,7 +137,7 @@ const CreatePaymentProfiles = (props) => {
         setValue("populatedProfile", [])
       }
       setDrpLoading(false)
-    } else {
+    } else if (selectedOption?.value === "other") {
       setValue("populatedProfile", [{ value: 1, label: "Other" }])
     }
   }
@@ -231,18 +231,8 @@ const CreatePaymentProfiles = (props) => {
 
   return (
     <div>
-      <Button variant="contained" onClick={handleClickOpen}>
-        {props.icon ? (
-          <AddIcon
-            style={{
-              display: "flex",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          />
-        ) : (
-          "Create Payment Profile"
-        )}
+      <Button variant="contained" onClick={handleClickOpen} sx={{ mr: 2 }}>
+        Create Payment Profile
       </Button>
       <Dialog
         open={open}
@@ -284,7 +274,6 @@ const CreatePaymentProfiles = (props) => {
                   value={watch("title")}
                 />
               </Grid>
-
               <Grid container spacing={1} sx={{ pt: 2 }}>
                 <Grid item xs={6}>
                   <Select
@@ -294,6 +283,12 @@ const CreatePaymentProfiles = (props) => {
                     options={ProfileType}
                     value={selectedProfile}
                     onChange={handleProfileChange}
+                    styles={{
+                      menu: (provided, state) => ({
+                        ...provided,
+                        zIndex: 9999,
+                      }),
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -307,10 +302,114 @@ const CreatePaymentProfiles = (props) => {
                     onChange={(selectedClient) =>
                       setPopulatedProfile(selectedClient)
                     }
+                    styles={{
+                      menu: (provided, state) => ({
+                        ...provided,
+                        zIndex: 9999,
+                      }),
+                    }}
                   />
                 </Grid>
               </Grid>
-
+              <Grid container spacing={1} sx={{ pt: 2 }}>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="invoice_code"
+                    label="Invoice Code"
+                    value={watch("invoice_code")}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="tax_id"
+                    label="Tax ID"
+                    value={watch("tax_id")}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} sx={{ pt: 2 }}>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="billing_country"
+                    label="Billing Country"
+                    value={watch("billing_country")}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="billing_currency"
+                    label="Billing Currency"
+                    value={watch("billing_currency")}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12} pt={2}>
+                <TextInput
+                  control={control}
+                  isMultiline
+                  row={4}
+                  name="billing_address"
+                  label="Billing Address"
+                  value={watch("billing_address")}
+                />
+              </Grid>
+              <Grid item xs={12} pt={2}>
+                <TextInput
+                  control={control}
+                  isMultiline
+                  row={4}
+                  name="account_details"
+                  label="Account Details"
+                  value={watch("account_details")}
+                />
+              </Grid>{" "}
+              <Grid container spacing={1} sx={{ pt: 2 }}>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="account_name"
+                    label=" Accounts contact name"
+                    value={watch("account_name")}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <TextInput
+                    control={control}
+                    // placeholder="Enter product Name"
+                    name="account_phone"
+                    label=" Accounts contact phone"
+                    value={watch("account_phone")}
+                  />
+                </Grid>
+              </Grid>
+              <Grid item xs={12} pt={2}>
+                <TextInput
+                  control={control}
+                  // placeholder="Enter product Name"
+                  name="invoice_mail"
+                  label="Invoice Mail IDs"
+                  value={watch("invoice_mail")}
+                />
+              </Grid>
+              <Grid item xs={12} pt={2}>
+                <TextInput
+                  control={control}
+                  isMultiline
+                  row={4}
+                  name="remarks"
+                  label="Remarks"
+                  value={watch("remarks")}
+                />
+              </Grid>
               <Grid sx={{ mt: 2 }} item xs={12}>
                 <ErrorMessage
                   errors={errors}
