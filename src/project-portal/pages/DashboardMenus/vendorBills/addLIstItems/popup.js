@@ -156,19 +156,13 @@ const AddLIstItems = ({ open, setOpen, ID, setID, invoicetab }) => {
                         {invoicetab &&
                             <>
 
-                                <Grid sm={6} item padding={1}>
+                                <Grid sm={8} item padding={1}>
                                     <SelectX
                                         label={"Work Order"}
                                         options={fetchWorkOrders}
                                         control={control}
                                         name={'work_orders'}
                                         defaultValue={watch('work_orders')}
-                                    />
-                                </Grid>
-                                <Grid sm={6} item p={1}>
-                                    <TextInput control={control}
-                                        name="amount"
-                                        label="Amount"
                                     />
                                 </Grid>
                             </>

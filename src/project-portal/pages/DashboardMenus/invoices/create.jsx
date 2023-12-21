@@ -73,7 +73,7 @@ const CreateTransactions = (props) => {
   const [editValues, setEditValues] = useState({})
   const [taxAccount, setTaxAccount] = useState([])
   const [taxAccount_id, setTaxAccount_id] = useState()
-  const [selectedCurrency, setSelectedCurrency] = useState("local")
+  const [selectedCurrency, setSelectedCurrency] = useState("foreign")
   const [formButtonStatus, setFormButtonStatus] = useState({
     label: "Submit",
     loading: false,
@@ -235,6 +235,15 @@ const CreateTransactions = (props) => {
       }
     })
   }
+  const fetchPaymentChannels = (e) => {
+    return Paymentchannels.list({ keyword: e }).then((response) => {
+      if (typeof response.data !== "undefined") {
+        return response.data.data.data
+      } else {
+        return []
+      }
+    })
+  }
 
   const selectTaxOption = (data) => {
     setTaxAccount_id(data.id)
@@ -280,10 +289,17 @@ const CreateTransactions = (props) => {
       setOpen(true)
     }
   }, [props.editId])
+  const [showForeign, setShowForeign] = useState(true)
+  const [showLocal, setShowLocal] = useState(false)
 
-  const handleChange = (event) => {
-    setSelectedCurrency(event.target.value)
+  const handleForeignChange = () => {
+    setShowForeign(!showForeign)
   }
+
+  const handleLocalChange = () => {
+    setShowLocal(!showLocal)
+  }
+
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen} sx={{ mr: 2 }}>
@@ -321,6 +337,15 @@ const CreateTransactions = (props) => {
             <Grid container>
               {" "}
               <Grid container p={1} spacing={1}>
+                <Grid item xs={8} mb={1}>
+                  <SelectX
+                    label="Payment Channel"
+                    options={fetchPaymentChannels}
+                    control={control}
+                    name={"payment_channel"}
+                    defaultValue={watch("payment_channel")}
+                  />
+                </Grid>{" "}
                 <Grid item xs={6}>
                   <SelectX
                     label="Busines Account"
@@ -330,7 +355,6 @@ const CreateTransactions = (props) => {
                     defaultValue={watch("business_account")}
                   />
                 </Grid>
-
                 <Grid item xs={6}>
                   <InputLabel
                     sx={{
@@ -365,7 +389,7 @@ const CreateTransactions = (props) => {
                 <Grid item xs={6}>
                   <SelectX
                     label="Client"
-                    options={fetchPaymentProfile}
+                    options={fetchClients}
                     control={control}
                     name={"client"}
                     defaultValue={watch("client")}
@@ -442,17 +466,7 @@ const CreateTransactions = (props) => {
                     />
                   </Grid>
                 </Grid>
-                {selectedCurrency === "local" ? (
-                  <Grid item xs={6}>
-                    <SelectX
-                      label="Local Currency"
-                      options={fetchPaymentProfile}
-                      control={control}
-                      name={"local_currency"}
-                      defaultValue={watch("local_currency")}
-                    />
-                  </Grid>
-                ) : (
+                {showForeign && (
                   <>
                     <Grid item xs={6}>
                       <SelectX
@@ -474,24 +488,39 @@ const CreateTransactions = (props) => {
                     </Grid>
                   </>
                 )}
+                {showLocal && (
+                  <Grid item xs={6}>
+                    <SelectX
+                      label="Local Currency"
+                      options={fetchPaymentProfile}
+                      control={control}
+                      name={"local_currency"}
+                      defaultValue={watch("local_currency")}
+                    />
+                  </Grid>
+                )}
                 <Grid item xs={6}></Grid>{" "}
-                <Grid container spacing={2} pt={3} pl={3}>
-                  <RadioGroup value={selectedCurrency} onChange={handleChange}>
-                    <Grid item xs={12}>
-                      <FormControlLabel
-                        value="local"
-                        control={<Radio />}
-                        label="Show Local Currency"
-                        style={{ display: "inline-flex" }}
-                      />
-                      <FormControlLabel
-                        value="foreign"
-                        control={<Radio />}
-                        label="Show Foreign Currency"
-                        style={{ display: "inline-flex" }}
-                      />{" "}
-                    </Grid>
-                  </RadioGroup>
+                <Grid container spacing={2} pt={1} pl={2}>
+                  <Grid item xs={12}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={showForeign}
+                          onChange={handleForeignChange}
+                        />
+                      }
+                      label="Show Foreign Currency"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={showLocal}
+                          onChange={handleLocalChange}
+                        />
+                      }
+                      label="Show Local Currency"
+                    />
+                  </Grid>
                 </Grid>{" "}
                 <Grid p={1} item xs={12}>
                   <TextInput
@@ -502,25 +531,6 @@ const CreateTransactions = (props) => {
                     value={watch("title")}
                   />
                 </Grid>{" "}
-                <Grid container spacing={1} p={1}>
-                  <Grid item xs={6}>
-                    <SelectX
-                      label="Payment Channel"
-                      options={fetchPaymentProfile}
-                      control={control}
-                      name={"payment_channel"}
-                      defaultValue={watch("payment_channel")}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <DateInput
-                      control={control}
-                      name="payment_date"
-                      label="Payment Date"
-                      value={watch("payment_date")}
-                    />
-                  </Grid>
-                </Grid>
                 <Grid container spacing={1} p={1}>
                   <Grid item xs={6}>
                     <TextInput

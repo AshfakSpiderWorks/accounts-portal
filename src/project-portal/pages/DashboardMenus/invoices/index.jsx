@@ -9,6 +9,8 @@ import BasicTabs from "./TabMenu"
 import EditIcon from "@mui/icons-material/Edit"
 import DeleteIcon from "@mui/icons-material/Delete"
 import CreateTransactions from "./create"
+import DetailsModal from "./detailTabs"
+
 const Invoices = () => {
   const [refresh, setRefresh] = useState(false)
   const [editId, setEditId] = useState()
@@ -19,6 +21,7 @@ const Invoices = () => {
   const [rowsDetails, setrowsDetails] = useState({})
   const [detailViewId, setDetailViewId] = useState(false)
   const [showDetailView, setshowDetailView] = useState(false)
+  const [detailViewOnly, setdetailViewOnly] = useState(false)
   const handleCreate = () => {
     setEditId(0)
     setRefresh(Math.random)
@@ -33,6 +36,9 @@ const Invoices = () => {
     setDetailViewId(id)
     setshowDetailView(true)
   }
+  const handleDetailViewOnly = (id) => {
+    setdetailViewOnly(id)
+  }
   const handleEdit = () => {
     setEditIdForTab(1)
   }
@@ -43,7 +49,7 @@ const Invoices = () => {
       headerName: "Title",
       width: 420,
       renderCell: (params) => (
-        <p onClick={() => DetailViewOpen(params.id)}>{params.row.title}</p>
+        <p onClick={() => handleDetailViewOnly(params.id)}>{params.row.title}</p>
       ),
     },
 
@@ -101,6 +107,10 @@ const Invoices = () => {
       {showDetailView && (
         <BasicTabs setshowDetailView={setshowDetailView} ID={detailViewId} />
       )}
+      {
+        detailViewOnly &&
+        <DetailsModal setshowDetailView={setdetailViewOnly} ID={detailViewOnly} />
+      }
       <Card
         sx={{
           display: "flex",

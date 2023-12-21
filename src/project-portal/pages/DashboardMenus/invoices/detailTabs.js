@@ -12,7 +12,7 @@ import Transactions from '../vendorBills/Tabs/Transactions';
 import LineItems from '../vendorBills/Tabs/LineItems';
 import Tax from './Tabs/Tax';
 import EditTransactions from './Tabs/Edit';
-const Modal = ({ ID, setshowDetailView, onNew, onUpdate, editId, setEditId }) => {
+const DetailsModal = ({ ID, setshowDetailView, onNew, onUpdate, editId, setEditId }) => {
 
     const [open, setOpen] = useState(false);
 
@@ -83,77 +83,17 @@ const Modal = ({ ID, setshowDetailView, onNew, onUpdate, editId, setEditId }) =>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" variant='scrollable' >
 
-                        <Tab label={"Edit"}{...a11yProps(0)} />
 
-
-                        <Tab label="Vendor Details" {...a11yProps(1)} />
-                        <Tab label="Tax" {...a11yProps(2)} />
-                        <Tab label="Line Items" {...a11yProps(3)} />
-                        <Tab label="Transactions" {...a11yProps(4)} />
-                        <Tab label="Bonus" {...a11yProps(5)} />
-                        <Tab label="Notes & Attachments" {...a11yProps(6)} />
-                        {/* {editId > 0 && <Tab label="Meeting  Minutes" {...a11yProps(2)} />} */}
+                        <Tab label={"Details"}{...a11yProps(0)} />
 
                     </Tabs>
                 </Box>
-                {editId > 0 ? (
-                    <TabPanel value={value} index={0}>
-                        <EditTransactions
-                            onUpdate={onUpdate}
-                            editId={editId}
-                            setEditId={setEditId} />
-                    </TabPanel>
-                ) : (
-                    <TabPanel value={value} index={0}>
-                        <Details />
-                    </TabPanel>
-                )}
 
-                <TabPanel value={value} index={1}>
-                    <VendorDetails />
+                <TabPanel value={value} index={0}>
+                    <Details />
                 </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <Tax />
-                </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <LineItems isInvoiceTab={true} />
-                </TabPanel>
-                <TabPanel value={value} index={4}>
-                    <Transactions />
-                </TabPanel>
-                {/* <TabPanel value={value} index={1}>
-
-                    <Attendees
-                        fetchTable={() => fetchTable()}
-                        projectID={projectID}
-                        editId={editId}
-                        onUpdate={onUpdate}
-                        onNew={onNew}
-                    />
 
 
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    < Index
-                        meetingID={editId}
-                        projectID={projectID}
-                        editId={editId}
-                        onUpdate={onUpdate}
-                        onNew={onNew}
-                    />
-                </TabPanel> */}
-                {/* <TabPanel value={value} index={2}>
-                    <MeetingMinutes
-                        projectID={projectID}
-                        editId={editId}
-                        onUpdate={onUpdate}
-                        onNew={onNew}
-                    />
-                </TabPanel> */}
-
-                {/* <TabPanel value={value} index={1}>
-                    <DataTable viewID={viewID} />
-                </TabPanel> */}
 
             </Box >
         );
@@ -185,4 +125,4 @@ const Modal = ({ ID, setshowDetailView, onNew, onUpdate, editId, setEditId }) =>
     );
 };
 
-export default Modal;
+export default DetailsModal;
